@@ -18,7 +18,8 @@ def verify_user(email, password):
         # if user["password"] != password:
         #     return {"success": False, "message": "Invalid password"}
 
-        if not check_password_hash(user["password"], password):
+       # if not check_password_hash(user["password"], password):
+        if user["password"] != password:
             return {"success": False, "message": "Invalid password"}
 
         # 3️⃣ Update last login time
