@@ -1,0 +1,5 @@
+supabase
+flask
+flask-cors
+werkzeug
+
