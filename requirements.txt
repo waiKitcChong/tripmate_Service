@@ -2,4 +2,4 @@ supabase
 flask
 flask-cors
 werkzeug
-uvicorn
+gunicorn
