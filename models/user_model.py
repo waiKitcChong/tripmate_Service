@@ -18,7 +18,10 @@ def verify_user(email, password):
             return {"success": False, "message": "Invalid password"}
 
         # Update last login
-        supabase.table("User").update({"last_login": datetime.utcnow()}).eq("user_id", user["user_id"]).execute()
+        supabase.table("User").update({
+       "last_login": datetime.utcnow().isoformat()
+       }).eq("user_id", user["user_id"]).execute()
+
 
         # Convert datetime fields to string safely
         if "created_at" in user and isinstance(user["created_at"], datetime):
