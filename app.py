@@ -20,7 +20,7 @@ def get_all_data():
 def insert_table(table):
     return insert_record(table)
 
-@app.route("/update/<table>/<record_id>", methods=["PUT"])
+@app.route("/update/<table>/<record_id>", methods=["POST"])
 def update_table(table, record_id):
     return update_record(table, record_id)
 
