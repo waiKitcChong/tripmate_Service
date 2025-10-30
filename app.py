@@ -20,11 +20,11 @@ def get_all_data():
 def insert_table(table):
     return insert_record(table)
 
-@app.route("/update/<table>/<int:record_id>", methods=["PUT"])
+@app.route("/update/<table>/<record_id>", methods=["PUT"])
 def update_table(table, record_id):
     return update_record(table, record_id)
 
-@app.route("/delete/<table>/<int:record_id>", methods=["DELETE"])
+@app.route("/delete/<table>/<record_id>", methods=["DELETE"])
 def delete_table(table, record_id):
     return delete_record(table, record_id)
 
