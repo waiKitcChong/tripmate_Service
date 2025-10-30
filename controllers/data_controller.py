@@ -12,7 +12,7 @@ def insert_record(table):
 
 def update_record(table, record_id):
     data = request.get_json()
-    result = supabase.table(table).update(data).eq("id", record_id).execute()
+    result = supabase.table(table).update(data).eq("user_id", record_id).execute()
     return jsonify(result.data), 200
 
 def delete_record(table, record_id):
