@@ -9,8 +9,10 @@ from controllers.data_controller import (
 )
 
 app = Flask(__name__)
-CORS(app)
+# ✅ This enables CORS correctly in Flask
+CORS(app, resources={r"/*": {"origins": "*"}})
 
+# ====== ROUTES ======
 @app.route("/get_all_data", methods=["GET"])
 def get_all_data():
     data = fetch_all_data()
@@ -28,7 +30,9 @@ def update_table(table, record_id):
 def delete_table(table, record_id):
     return delete_record(table, record_id)
 
+# ====== BLUEPRINT ======
 app.register_blueprint(user_routes, url_prefix="/api/user")
 
+# ====== RUN APP ======
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
