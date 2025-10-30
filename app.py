@@ -31,14 +31,14 @@ def update_table(table, record_id):
         print("Record ID:", record_id)
         print("Request JSON:", request.get_json())
 
-        result = update_record(table, record_id)
-        print("Update result:", result)
-        return jsonify(result)
+        #  Don't jsonify again — just return directly
+        return update_record(table, record_id)
 
     except Exception as e:
         print("❌ ERROR in /update route:", str(e))
-        traceback.print_exc()  # full error stack trace
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
+
     
 @app.route("/delete/<table>/<record_id>", methods=["DELETE"])
 def delete_table(table, record_id):
