@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-load_dotenv()  # 讀取 .env 內容
+load_dotenv()  
 # ====== ROUTES ======
 @app.route("/get_all_data", methods=["GET"])
 def get_all_data():
