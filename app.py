@@ -1,6 +1,7 @@
 from flask import Flask, jsonify,request
 from flask_cors import CORS
 from views.user_routes import user_routes
+from views.payment_routes import payment_routes  
 from controllers.data_controller import (
     fetch_all_data,
     insert_record,
@@ -47,6 +48,7 @@ def delete_table(table, record_id):
 # ====== BLUEPRINT ======
 app.register_blueprint(user_routes, url_prefix="/api/user")
 
+app.register_blueprint(payment_routes, url_prefix="/api/payment") 
 # ====== RUN APP ======
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
