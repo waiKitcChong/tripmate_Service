@@ -2,6 +2,7 @@ from flask import Flask, jsonify,request
 from flask_cors import CORS
 from views.user_routes import user_routes
 from views.payment_routes import payment_routes  
+from dotenv import load_dotenv
 from controllers.data_controller import (
     fetch_all_data,
     insert_record,
@@ -14,6 +15,7 @@ app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "*"}})
 
+load_dotenv()  # 讀取 .env 內容
 # ====== ROUTES ======
 @app.route("/get_all_data", methods=["GET"])
 def get_all_data():

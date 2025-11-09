@@ -1,4 +1,3 @@
-# views/payment_routes.py
 from flask import Blueprint
 from controllers.payment_controller import create_payment_intent
 
