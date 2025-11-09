@@ -1,32 +1,58 @@
-import os
-from flask import Blueprint, request, jsonify
+# controllers/payment_controller.py
+from flask import jsonify, request
 import stripe
+import os
 from dotenv import load_dotenv
 
-load_dotenv()  
+load_dotenv()  # Load STRIPE keys from .env file
 
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
-payment_routes = Blueprint('payment_routes', __name__)
 
-@payment_routes.route("/create-payment-intent", methods=["POST"])
 def create_payment_intent():
+    """Create Stripe payment intent and return client secret"""
     try:
         data = request.get_json()
-        amount = data.get("amount")
-        currency = data.get("currency", "myr").lower()
+        amount = int(data.get("amount", 0))  # amount in cents
+        currency = data.get("currency", "usd")
 
-        if not amount or amount <= 0:
-            return jsonify({"error": "Invalid amount"}), 400
+        if amount <= 0:
+            return jsonify({"error": "Invalid payment amount"}), 400
 
-
+        # Create payment intent
         intent = stripe.PaymentIntent.create(
             amount=amount,
             currency=currency,
-            automatic_payment_methods={"enabled": True},
+            payment_method_types=["card"],
         )
 
-        return jsonify({"client_secret": intent.client_secret})
+        return jsonify({
+            "clientSecret": intent.client_secret,
+            "amount": amount,
+            "currency": currency
+        }), 200
+
     except Exception as e:
-        print("⚠️ PaymentIntent error:", e)
-        return jsonify({"error": str(e)}), 400
+        return jsonify({"error": str(e)}), 500
+
+
+def generate_receipt():
+    """Generate simple payment receipt (for demo)"""
+    try:
+        data = request.get_json()
+        user = data.get("user", "Unknown User")
+        amount = data.get("amount")
+        currency = data.get("currency", "usd")
+        status = data.get("status", "succeeded")
+
+        receipt = {
+            "receipt_id": f"RCPT_{os.urandom(4).hex().upper()}",
+            "user": user,
+            "amount": amount,
+            "currency": currency,
+            "status": status,
+            "message": "Payment successful! Thank you for your purchase."
+        }
+        return jsonify(receipt), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
