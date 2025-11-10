@@ -9,12 +9,47 @@ from controllers.data_controller import (
     delete_record
 )
 import traceback
+from controllers.user_controller import create_otp_record, verify_otp_record
 
 app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # ====== ROUTES ======
+
+@app.route("/api/user/send_otp", methods=["POST"])
+def send_otp():
+    try:
+        data = request.get_json()
+        name = data.get("name")
+        email = data.get("email")
+        password = data.get("password")
+
+        if not name or not email or not password:
+            return jsonify({"success": False, "message": "Missing fields"}), 400
+
+        res = create_otp_record(name, email, password)
+        status = 200 if res["success"] else 400
+        return jsonify(res), status
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+@app.route("/api/user/verify_otp", methods=["POST"])
+def verify_otp():
+    try:
+        data = request.get_json()
+        email = data.get("email")
+        otp = data.get("otp")
+        if not email or not otp:
+            return jsonify({"success": False, "message": "Missing fields"}), 400
+
+        res = verify_otp_record(email, otp)
+        status = 200 if res["success"] else 400
+        return jsonify(res), status
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+
 @app.route("/get_all_data", methods=["GET"])
 def get_all_data():
     data = fetch_all_data()
