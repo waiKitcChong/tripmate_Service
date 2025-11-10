@@ -4,7 +4,7 @@ from models.user_model import verify_user
 import random
 import smtplib
 from email.message import EmailMessage
-from db import supabase
+from models.db import supabase
 
 def login_user(email, password):
     result = verify_user(email, password)
