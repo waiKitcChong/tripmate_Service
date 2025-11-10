@@ -12,7 +12,6 @@ def login_user(email, password):
 
 
 
-# 临时 OTP 存储
 otp_store = {}  # {email: {"otp": "123456", "name": ..., "password": ...}}
 
 def generate_otp():
@@ -49,7 +48,6 @@ def verify_otp_record(email, otp):
     
     record = otp_store.pop(email)
 
-    # 插入 Supabase User 表
     from datetime import datetime
     import uuid
 
