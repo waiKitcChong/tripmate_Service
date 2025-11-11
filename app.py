@@ -1,7 +1,6 @@
 from flask import Flask, jsonify,request
 from flask_cors import CORS
 from views.user_routes import user_routes
-from views.payment_routes import payment_routes  
 from controllers.data_controller import (
     fetch_all_data,
     insert_record,
