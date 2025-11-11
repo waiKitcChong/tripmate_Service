@@ -1,17 +1,11 @@
 import random
-import os
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
 from datetime import datetime, timedelta
 from models.db import supabase
 
-
 otp_cache = {}
 
-SENDGRID_API_KEY = "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"  
-SENDER_EMAIL = "codeqiangod@gmail.com"
-
 def send_otp_controller(name, email, password):
+    # Generate OTP
     otp = str(random.randint(100000, 999999))
     otp_cache[email] = {
         "otp": otp,
@@ -20,26 +14,15 @@ def send_otp_controller(name, email, password):
         "password": password
     }
 
-    message = Mail(
-        from_email=SENDER_EMAIL,
-        to_emails=email,
-        subject="TripMate Email Verification OTP",
-        plain_text_content=f"Hello {name},\n\nYour verification code is: {otp}\nIt will expire in 5 minutes."
-    )
-
-    try:
-        sg = SendGridAPIClient(SENDGRID_API_KEY)
-        sg.send(message)
-        print(f"✅ OTP sent to {email}")
-    except Exception as e:
-        print(f"❌ SendGrid failed: {e}")
-
-    return {"success": True, "message": "OTP sent successfully."}
-
+   
+    return {
+        "success": True,
+        "message": "OTP generated successfully.",
+        "otp": otp   # Flutter will use this to send Gmail
+    }
 
 def verify_otp_controller(email, otp):
     record = otp_cache.get(email)
-
     if not record:
         return {"success": False, "message": "No OTP found. Please request a new one."}
 
@@ -52,7 +35,6 @@ def verify_otp_controller(email, otp):
 
     # OTP verified — insert user into Supabase
     try:
-        # Get latest user_id (e.g., UU001, UU002)
         response = supabase.table("User").select("user_id").order("user_id", desc=True).limit(1).execute()
         last_id = response.data[0]["user_id"] if response.data else "UU000"
         new_id_num = int(last_id[2:]) + 1
