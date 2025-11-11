@@ -49,8 +49,6 @@ def delete_table(table, record_id):
 
 # ====== BLUEPRINT ======
 app.register_blueprint(user_routes, url_prefix="/api/user")
-
-app.register_blueprint(payment_routes, url_prefix="/api/payment") 
 # ====== RUN APP ======
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
