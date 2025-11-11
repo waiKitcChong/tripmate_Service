@@ -1,6 +1,6 @@
 # views/payment_routes.py
 from flask import Blueprint
-from controllers.payment_controller import create_payment_intent, generate_receipt
+from controllers.otp_controller import create_payment_intent, generate_receipt
 
 payment_routes = Blueprint("payment_routes", __name__)
 
