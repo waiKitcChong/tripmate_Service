@@ -1,7 +1,7 @@
 # views/user_routes.py
 from flask import Blueprint, request, jsonify
 from controllers.user_controller import login_user
-from controllers.register_controller import register_user, resend_otp, verify_user_otp # NEW
+from controllers.register_controller import register_user, resend_otp, verify_user_otp
 from flask_cors import cross_origin
 
 user_routes = Blueprint("user_routes", __name__)
