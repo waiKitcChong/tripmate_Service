@@ -4,14 +4,11 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from datetime import datetime, timedelta
 from models.db import supabase
-from dotenv import load_dotenv
 
-load_dotenv()  # loads .env locally
 
-# Temporary in-memory OTP cache
 otp_cache = {}
 
-SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")  # Set in Render dashboard
+SENDGRID_API_KEY = os.getenv("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")  
 SENDER_EMAIL = "codeqiangod@gmail.com"
 
 def send_otp_controller(name, email, password):
