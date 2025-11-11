@@ -9,7 +9,7 @@ from models.db import supabase
 # Temporary in-memory OTP cache
 otp_cache = {}
 
-SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")  # Set in Render dashboard
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY ")  # Set in Render dashboard
 SENDER_EMAIL = "chongsq-wm22@student.tarc.edu.my"
 
 
