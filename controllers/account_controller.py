@@ -1,17 +1,15 @@
-# controllers/account_controller.py
 import random
+import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from datetime import datetime, timedelta
 from models.db import supabase
 
-# Temporary in-memory OTP cache
+
 otp_cache = {}
 
-# Hardcoded SendGrid API key and sender email
-SENDGRID_API_KEY = "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"
+SENDGRID_API_KEY = "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"  
 SENDER_EMAIL = "codeqiangod@gmail.com"
-
 
 def send_otp_controller(name, email, password):
     otp = str(random.randint(100000, 999999))
@@ -35,7 +33,6 @@ def send_otp_controller(name, email, password):
         print(f"✅ OTP sent to {email}")
     except Exception as e:
         print(f"❌ SendGrid failed: {e}")
-        return {"success": False, "message": f"Failed to send OTP: {e}"}
 
     return {"success": True, "message": "OTP sent successfully."}
 
