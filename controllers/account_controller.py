@@ -8,7 +8,7 @@ from models.db import supabase
 
 otp_cache = {}
 
-SENDGRID_API_KEY = "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"  
+SENDGRID_API_KEY = "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"  
 SENDER_EMAIL = "codeqiangod@gmail.com"
 
 def send_otp_controller(name, email, password):
