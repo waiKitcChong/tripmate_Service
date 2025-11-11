@@ -43,7 +43,7 @@ def verify_otp_controller(email, otp):
         supabase.table("User").insert({
             "user_id": new_user_id,
             "created_at": datetime.utcnow().isoformat(),
-            "role": "user",
+            "role": "tourist",
             "email": email,
             "name": record["name"],
             "password": record["password"],
