@@ -60,6 +60,7 @@ def verify_otp_controller(email, otp):
         supabase.table("Tourists").insert({
             "tourist_id": new_tourist_id,
             "name": record["name"],
+            "user_id":new_user_id,
         }).execute()
 
         otp_cache.pop(email, None)
