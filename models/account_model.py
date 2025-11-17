@@ -15,6 +15,19 @@ def check_existing_user(email):
 
 def insert_new_user(name, email, password):
     new_id = get_latest_user_id()
+    
+    response2 = supabase.table("Tourists").select("tourist_id").order("tourist_id", desc=True).limit(1).execute()
+    last_id = response2.data[0]["tourist_id"] if response2.data else "TRS25001"
+    new_id_num = int(last_id[3:]) + 1  # skip the "TRS" prefix
+    new_tourist_id = f"TRS{new_id_num:05d}"
+
+    
+        
+    supabase.table("Tourists").insert({
+        "tourist_id": new_tourist_id,
+         "name": name,
+    }).execute()
+
     supabase.table("User").insert({
         "user_id": new_id,
         "created_at": datetime.utcnow().isoformat(),
