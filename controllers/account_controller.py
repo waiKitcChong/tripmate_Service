@@ -50,6 +50,18 @@ def verify_otp_controller(email, otp):
             "status": "active"
         }).execute()
 
+        response2 = supabase.table("Tourists").select("tourist_id").order("tourist_id", desc=True).limit(1).execute()
+        last_id = response2.data[0]["tourist_id"] if response2.data else "TRS25001"
+        new_id_num = int(last_id[3:]) + 1  # skip the "TRS" prefix
+        new_tourist_id = f"TRS{new_id_num:05d}"
+
+    
+        
+        supabase.table("Tourists").insert({
+            "tourist_id": new_tourist_id,
+            "name": record["name"],
+        }).execute()
+
         otp_cache.pop(email, None)
         return {"success": True, "message": "Registration successful!"}
 
