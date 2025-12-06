@@ -1,3 +1,4 @@
+import bcrypt
 import random
 from datetime import datetime, timedelta
 from models.db import supabase
@@ -39,14 +40,14 @@ def verify_otp_controller(email, otp):
         last_id = response.data[0]["user_id"] if response.data else "UU000"
         new_id_num = int(last_id[2:]) + 1
         new_user_id = f"UU{new_id_num:03d}"
-
+        hashed_password = bcrypt.hashpw( record["password"].encode('utf-8'), bcrypt.gensalt())
         supabase.table("User").insert({
             "user_id": new_user_id,
             "created_at": datetime.utcnow().isoformat(),
             "role": "tourist",
             "email": email,
             "name": record["name"],
-            "password": record["password"],
+            "password":hashed_password,
             "status": "active"
         }).execute()
 
