@@ -1,3 +1,4 @@
+import bcrypt
 from models.db import supabase
 from datetime import datetime
 
@@ -15,12 +16,12 @@ def check_existing_user(email):
 
 def insert_new_user(name, email, password):
     new_id = get_latest_user_id()
-    
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     response2 = supabase.table("Tourists").select("tourist_id").order("tourist_id", desc=True).limit(1).execute()
     last_id = response2.data[0]["tourist_id"] if response2.data else "TRS25001"
     new_id_num = int(last_id[3:]) + 1  # skip the "TRS" prefix
     new_tourist_id = f"TRS{new_id_num:05d}"
-
+   
     
         
     supabase.table("Tourists").insert({
@@ -34,7 +35,7 @@ def insert_new_user(name, email, password):
         "role": "tourist",
         "email": email,
         "name": name,
-        "password": password,
+        "password": hashed_password,
         "status": "active"
     }).execute()
     return new_id
