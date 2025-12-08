@@ -1,4 +1,5 @@
 # models/user_model.py
+import bcrypt
 from models.db import supabase
 from werkzeug.security import check_password_hash
 from datetime import datetime
@@ -14,7 +15,8 @@ def verify_user(email, password):
 
         # Password check
         # if not check_password_hash(user["password"], password):
-        if user["password"] != password:
+        if bcrypt.checkpw(user["password"].encode('utf-8'), password.encode('utf-8')):
+        #if user["password"] != password:
             return {"success": False, "message": "Invalid password"}
 
         # Update last login
