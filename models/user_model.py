@@ -15,7 +15,7 @@ def verify_user(email, password):
 
         # Password check
         # if not check_password_hash(user["password"], password):
-        if bcrypt.checkpw(user["password"].encode('utf-8'), password.encode('utf-8')):
+        if not bcrypt.checkpw(password.encode('utf-8')，user["password"].encode('utf-8')):
         #if user["password"] != password:
             return {"success": False, "message": "Invalid password"}
 
