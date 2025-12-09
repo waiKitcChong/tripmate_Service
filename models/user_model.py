@@ -13,6 +13,8 @@ def verify_user(email, password):
 
         user = response.data[0]
 
+        if user.get("status") != "active":
+            return {"success": False, "message": "Account is not active"}
         # Password check
         # if not check_password_hash(user["password"], password):
         if not bcrypt.checkpw(password.encode('utf-8'), user["password"].encode('utf-8')):
